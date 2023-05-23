@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>insta485</title>
+    <link rel="stylesheet" href="/static/css/style.css" />
+  </head>
+  <body>
+    <header>
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        "
+      >
+        <div>
+          <a href="/">
+            <img
+              src="/static/images/87390.png"
+              alt="logo"
+              style="width: 42px; height: 42px"
+            />
+          </a>
+          <a href="/"><em>insta485</em></a>
+        </div>
+        <div>
+          <a href="/explore/">Explore</a> |
+          <a href="/users/{{ logname }}/">{{ logname }}</a>
+        </div>
+      </div>
+    </header>
+
+    <nav>
+      <h2>Discover People</h2>
+      {% for people in to_follows %}
+      <section>
+        <a href="/users/{{ people.username }}/">
+          <img src="/uploads/{{ people.filename }}" alt="profilePic" />
+        </a>
+        <a href="/users/{{ people.username }}/">{{ people.username }}</a>
+      </section>
+      <div style="text-align: right">
+        <!-- Follow Button -->
+        <form
+          action="/following/?target=/explore/"
+          method="post"
+          enctype="multipart/form-data"
+        >
+          <input type="submit" name="follow" value="follow" />
+          <input type="hidden" name="username" value="{{people.username}}" />
+          <input type="hidden" name="operation" value="follow" />
+        </form>
+      </div>
+      {% endfor %}
+    </nav>
+  </body>
+</html>

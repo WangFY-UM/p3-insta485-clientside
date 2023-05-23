@@ -1,0 +1,19 @@
+#!/bin/bash
+
+chmod +x insta485test
+
+# Stops on errors and prints commands
+set -Eeuo pipefail
+set -x
+
+# Runs all unit tests using pytest tests/
+pytest tests/
+
+# Runs pycodestyle insta485generator
+pycodestyle setup.py insta485generator
+
+# Runs pydocstyle insta485generator
+pydocstyle setup.py insta485generator
+
+# Runs pylint --disable=no-value-for-parameter setup.py insta485generator
+pylint --disable=no-value-for-parameter setup.py insta485generator

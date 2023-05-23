@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Insta485</title>
+    <link rel="stylesheet" href="/static/css/style.css" />
+  </head>
+
+  <body>
+    <header>
+      <a href="/">
+        <img
+          src="/static/images/87390.png"
+          alt="logo"
+          style="width: 42px; height: 42px"
+        />
+      </a>
+      <a href="/"><em>Insta485</em></a>
+
+      <div style="text-align: right">
+        <a href="/explore/">Explore</a> |
+        <a href="/users/{{ logname }}/">{{ logname }}</a>
+      </div>
+    </header>
+
+    <nav>
+      <strong>Following</strong>
+
+      {% for follows in following %}
+      <div>
+        <a href="/users/{{ follows.username }}/">
+          <img src="/uploads/{{ follows.profile }}" alt="profile" />
+          {{ follows.username }}
+        </a>
+        <div style="text-align: right">
+          {% if follows.is_following %} following {% else %} not following {%
+          endif %}
+          <!-- Unfollow Button -->
+          <form
+            action="/following/?target={{current_page_url}}"
+            method="post"
+            enctype="multipart/form-data"
+          >
+            <input type="submit" name="unfollow" value="unfollow" />
+            <input type="hidden" name="username" value="{{follows.username}}" />
+            <input type="hidden" name="operation" value="unfollow" />
+          </form>
+        </div>
+      </div>
+      {% endfor %}
+    </nav>
+  </body>
+</html>

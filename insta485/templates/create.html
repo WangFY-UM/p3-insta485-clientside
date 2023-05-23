@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>insta485</title>
+        <link rel="style" href="static/css/style.css">
+    </head>
+
+    <header>
+        <a href="/">
+            <img src="insta485\static\images\87390.png" alt="logo" style="width:42px;height:42px;">
+          </a>
+        <a href="/"><em>insta485</em></a>
+
+        <p style="text-align:right;">
+            <a href="/explore/">explore</a>
+            <a href="/users/{{ logname }}/">{{ logname }}</a>
+        </p>
+    </header>
+
+<!-- DO NOT CHANGE THIS (aside from styling) -->
+<form action="/accounts/?target=/" method="post" enctype="multipart/form-data">
+    <input type="file" name="file" required/>
+    <input type="text" name="fullname" required/>
+    <input type="text" name="username" required/>
+    <input type="text" name="email" required/>
+    <input type="password" name="password" required/>
+    <input type="submit" name="signup" value="sign up"/>
+    <input type="hidden" name="operation" value="create"/>
+  </form>
+
+  
+  <nav>
+    <a href="/accounts/login/">log in</a>
+  </nav>
+</html>

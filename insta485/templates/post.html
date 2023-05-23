@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>insta485</title>
+    <link rel="stylesheet" href="/static/css/style.css" />
+  </head>
+  <body>
+    <header>
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        "
+      >
+        <div>
+          <a href="/">
+            <img
+              src="/static/images/87390.png"
+              alt="logo"
+              style="width: 42px; height: 42px"
+            />
+          </a>
+          <a href="/"><em>insta485</em></a>
+        </div>
+        <div>
+          <a href="/explore/">Explore</a> |
+          <a href="/users/{{ logname }}/">{{ logname }}</a>
+        </div>
+      </div>
+    </header>
+    <main>
+      <section>
+        <img src="/uploads/{{post.filename}}" alt="post_pic_{{post.postid}}" />
+        <img
+          src="/uploads/{{post.profile}}"
+          alt="profile_pic_{{post.postid}}"
+        />
+      </section>
+      <aside>
+        <a href="/users/{{post.owner}}/">{{post.owner}}</a>
+        <p style="text-align: right">{{post.created}}</p>
+        {% if post.num_likes == 1 %}
+        <p>{{post.num_likes}} like</p>
+        {% else %}
+        <p>{{post.num_likes}} likes</p>
+        {% endif %} {% for comment in comments %}
+        <div>
+          <a href="/users/{{comment.owner}}/">{{comment.owner}}</a>
+          {{comment.text}} {% if comment.owner == logname %}
+          <!-- Delete Comment Button -->
+          <form
+            action="/comments/?target=/posts/{{ post.postid }}/"
+            method="post"
+            enctype="multipart/form-data"
+          >
+            <input type="hidden" name="operation" value="delete" />
+            <input
+              type="hidden"
+              name="commentid"
+              value="{{comment.commentid}}"
+            />
+            <input type="submit" name="uncomment" value="delete" />
+          </form>
+          {% endif %}
+        </div>
+        {% endfor %} {% if post.liked %}
+        <form
+          action="/likes/?target=/posts/{{ post.postid }}/"
+          method="post"
+          enctype="multipart/form-data"
+        >
+          <input type="hidden" name="operation" value="unlike" />
+          <input type="hidden" name="postid" value="{{post.postid}}" />
+          <input type="submit" name="unlike" value="unlike" />
+        </form>
+        {% else %}
+        <form
+          action="/likes/?target=/posts/{{ post.postid }}/"
+          method="post"
+          enctype="multipart/form-data"
+        >
+          <input type="hidden" name="operation" value="like" />
+          <input type="hidden" name="postid" value="{{post.postid}}" />
+          <input type="submit" name="like" value="like" />
+        </form>
+        {% endif %}
+        <form
+          action="/comments/?target=/posts/{{ post.postid }}/"
+          method="post"
+          enctype="multipart/form-data"
+        >
+          <input type="hidden" name="operation" value="create" />
+          <input type="hidden" name="postid" value="{{post.postid}}" />
+          <input type="text" name="text" required />
+          <input type="submit" name="comment" value="comment" />
+        </form>
+        {% if post.owner == logname %}
+        <!-- Delete Post Button -->
+        <form
+          action="/posts/?target=/users/{{ post.owner }}"
+          method="post"
+          enctype="multipart/form-data"
+        >
+          <input type="hidden" name="operation" value="delete" />
+          <input type="hidden" name="postid" value="{{post.postid}}" />
+          <input type="submit" name="delete" value="delete this post" />
+        </form>
+        {% endif %}
+      </aside>
+    </main>
+  </body>
+</html>
